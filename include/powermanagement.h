@@ -15,7 +15,7 @@ namespace ModFirmWare
     PowerManagement(int chargePin, int readyPin, uint8_t addr, time_t updateInterval);
 
     bool setup(Application *app);
-    void loop() override;
+    virtual bool measureContinuously() override;
     bool measure() override;
 
     bool isCharging();

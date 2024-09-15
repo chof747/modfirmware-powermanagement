@@ -40,12 +40,22 @@ bool PowerManagement::setup(Application *app)
   }
 }
 
-void PowerManagement::loop()
+bool PowerManagement::measureContinuously()
 //******************************************************************************
 {
-  SensorComponent::loop();
   bool newCharging = digitalRead(chgPin);
   bool newReady = digitalRead(rdyPin);
+
+  if ((newCharging != charging) || (newReady != ready))
+  {
+    charging = newCharging;
+    ready = newReady;
+    return true;
+  }
+  else
+  {
+    return false;
+  }
 }
 
 bool PowerManagement::measure()
