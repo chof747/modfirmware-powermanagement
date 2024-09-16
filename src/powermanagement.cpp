@@ -2,6 +2,8 @@
 
 using namespace ModFirmWare;
 
+#define LOGTAG  "pwrmgt"
+
 PowerManagement::PowerManagement(int chargePin, int readyPin)
 :SensorComponent(), chgPin(chargePin), rdyPin(readyPin), ina219()
 //******************************************************************************
@@ -43,8 +45,8 @@ bool PowerManagement::setup(Application *app)
 bool PowerManagement::measureContinuously()
 //******************************************************************************
 {
-  bool newCharging = digitalRead(chgPin);
-  bool newReady = digitalRead(rdyPin);
+  bool newCharging = digitalRead(chgPin) == LOW;
+  bool newReady = digitalRead(rdyPin) == LOW;
 
   if ((newCharging != charging) || (newReady != ready))
   {
@@ -77,13 +79,13 @@ bool PowerManagement::measure()
 bool PowerManagement::isCharging()
 //******************************************************************************
 {
-  return digitalRead(chgPin);
+  return LOW == digitalRead(chgPin);
 }
 
 bool PowerManagement::isReady()
 //******************************************************************************
 {
-  return digitalRead(rdyPin);
+  return LOW == digitalRead(rdyPin);
 }
 
 void ModFirmWare::PowerManagement::initializeValues()
